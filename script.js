@@ -3,6 +3,18 @@ const resetButton = document.getElementById("resetButton");
 const progressText = document.getElementById("progressText");
 const progressMessage = document.getElementById("progressMessage");
 
+const topicList = document.getElementById("topicList");
+
+const topics = ["HTML", "CSS", "JavaScript"];
+
+topics.forEach(function (topic) {
+  const listItem = document.createElement("li");
+
+  listItem.textContent = topic;
+
+  topicList.appendChild(listItem);
+});
+
 let topicsCompleted = 0;
 
 function updateProgress() {
