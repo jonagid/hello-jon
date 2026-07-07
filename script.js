@@ -1,44 +1,33 @@
-const progressButton = document.getElementById("progressButton");
-const resetButton = document.getElementById("resetButton");
-const progressText = document.getElementById("progressText");
-const progressMessage = document.getElementById("progressMessage");
-
 const topicList = document.getElementById("topicList");
+const newTopicInput = document.getElementById("newTopicInput");
+const addTopicButton = document.getElementById("addTopicButton");
 
 const topics = ["HTML", "CSS", "JavaScript"];
 
-topics.forEach(function (topic) {
-  const listItem = document.createElement("li");
+function renderTopics() {
+  topicList.innerHTML = "";
 
-  listItem.textContent = topic;
+  topics.forEach(function (topic) {
+    const listItem = document.createElement("li");
 
-  topicList.appendChild(listItem);
-});
+    listItem.textContent = topic;
 
-let topicsCompleted = 0;
-
-function updateProgress() {
-  progressText.textContent = `Topics completed: ${topicsCompleted}`;
-
-  if (topicsCompleted === 0) {
-    progressMessage.textContent = "Start by completing one topic.";
-  } else if (topicsCompleted < 3) {
-    progressMessage.textContent = "Good start. Keep going.";
-  } else if (topicsCompleted < 5) {
-    progressMessage.textContent = "Nice progress. You are building momentum.";
-  } else {
-    progressMessage.textContent = "Great work. You are developing consistency.";
-  }
+    topicList.appendChild(listItem);
+  });
 }
 
-progressButton.addEventListener("click", function () {
-  topicsCompleted = topicsCompleted + 1;
+addTopicButton.addEventListener("click", function () {
+  const newTopic = newTopicInput.value.trim();
 
-  updateProgress();
+  if (newTopic === "") {
+    return;
+  }
+
+  topics.push(newTopic);
+
+  newTopicInput.value = "";
+
+  renderTopics();
 });
 
-resetButton.addEventListener("click", function () {
-  topicsCompleted = 0;
-
-  updateProgress();
-});
+renderTopics();
