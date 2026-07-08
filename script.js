@@ -2,6 +2,11 @@ const topicList = document.getElementById("topicList");
 const newTopicInput = document.getElementById("newTopicInput");
 const addTopicButton = document.getElementById("addTopicButton");
 
+const progressText = document.getElementById("progressText");
+const progressSummary = document.getElementById("progressSummary");
+const progressPercent = document.getElementById("progressPercent");
+const progressMessage = document.getElementById("progressMessage");
+
 const savedTopics = JSON.parse(localStorage.getItem("topics"));
 
 let topics = savedTopics || [
@@ -25,6 +30,36 @@ saveTopics();
 
 function saveTopics() {
   localStorage.setItem("topics", JSON.stringify(topics));
+}
+
+function updateProgress() {
+  const completedCount = topics.filter(function (topic) {
+    return topic.completed;
+  }).length;
+
+  const totalCount = topics.length;
+
+  let percentComplete = 0;
+
+  if (totalCount > 0) {
+    percentComplete = Math.round((completedCount / totalCount) * 100);
+  }
+
+  progressText.textContent = `Topics completed: ${completedCount}`;
+
+  progressSummary.textContent = `Completed: ${completedCount} of ${totalCount} topics`;
+
+  progressPercent.textContent = `Progress: ${percentComplete}%`;
+
+  if (completedCount === 0) {
+    progressMessage.textContent = "Start by completing one topic.";
+  } else if (percentComplete < 50) {
+    progressMessage.textContent = "Good start. Keep going.";
+  } else if (percentComplete < 100) {
+    progressMessage.textContent = "Nice progress. You are building momentum.";
+  } else {
+    progressMessage.textContent = "Great work. All topics completed.";
+  }
 }
 
 function renderTopics() {
@@ -69,6 +104,8 @@ function renderTopics() {
 
     topicList.appendChild(listItem);
   });
+
+  updateProgress();
 }
 
 addTopicButton.addEventListener("click", function () {
@@ -78,10 +115,10 @@ addTopicButton.addEventListener("click", function () {
     return;
   }
 
-topics.push({
-  name: newTopic,
-  completed: false,
-});
+  topics.push({
+    name: newTopic,
+    completed: false,
+  });
 
   saveTopics();
 
