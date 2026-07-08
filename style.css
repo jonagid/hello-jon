@@ -57,3 +57,11 @@ h2 {
   text-decoration: line-through;
   opacity: 0.6;
 }
+
+.filter-buttons {
+  margin-bottom: 12px;
+}
+
+.filter-buttons button {
+  margin-right: 8px;
+}

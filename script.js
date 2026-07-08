@@ -2,6 +2,10 @@ const topicList = document.getElementById("topicList");
 const newTopicInput = document.getElementById("newTopicInput");
 const addTopicButton = document.getElementById("addTopicButton");
 
+const showAllButton = document.getElementById("showAllButton");
+const showActiveButton = document.getElementById("showActiveButton");
+const showCompletedButton = document.getElementById("showCompletedButton");
+
 const progressText = document.getElementById("progressText");
 const progressSummary = document.getElementById("progressSummary");
 const progressPercent = document.getElementById("progressPercent");
@@ -27,6 +31,8 @@ topics = topics.map(function (topic) {
 });
 
 saveTopics();
+
+let currentFilter = "all";
 
 function saveTopics() {
   localStorage.setItem("topics", JSON.stringify(topics));
@@ -65,7 +71,20 @@ function updateProgress() {
 function renderTopics() {
   topicList.innerHTML = "";
 
-  topics.forEach(function (topic, index) {
+  const visibleTopics = topics.filter(function (topic) {
+  if (currentFilter === "active") {
+    return !topic.completed;
+  }
+
+  if (currentFilter === "completed") {
+    return topic.completed;
+  }
+
+  return true;
+});
+
+visibleTopics.forEach(function (topic) {
+  const index = topics.indexOf(topic);
     const listItem = document.createElement("li");
 
     const completedCheckbox = document.createElement("input");
@@ -87,6 +106,24 @@ function renderTopics() {
 
       saveTopics();
 
+      showAllButton.addEventListener("click", function () {
+  currentFilter = "all";
+
+  renderTopics();
+});
+
+showActiveButton.addEventListener("click", function () {
+  currentFilter = "active";
+
+  renderTopics();
+});
+
+showCompletedButton.addEventListener("click", function () {
+  currentFilter = "completed";
+
+  renderTopics();
+});
+      
       renderTopics();
     });
 
