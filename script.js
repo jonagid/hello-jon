@@ -7,10 +7,23 @@ const topics = ["HTML", "CSS", "JavaScript"];
 function renderTopics() {
   topicList.innerHTML = "";
 
-  topics.forEach(function (topic) {
+  topics.forEach(function (topic, index) {
     const listItem = document.createElement("li");
 
-    listItem.textContent = topic;
+    const topicText = document.createElement("span");
+    topicText.textContent = topic;
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+
+    deleteButton.addEventListener("click", function () {
+      topics.splice(index, 1);
+
+      renderTopics();
+    });
+
+    listItem.appendChild(topicText);
+    listItem.appendChild(deleteButton);
 
     topicList.appendChild(listItem);
   });
