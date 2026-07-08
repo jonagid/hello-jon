@@ -52,3 +52,8 @@ h2 {
 #topicList button {
   margin-left: 10px;
 }
+
+.completed-topic {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
