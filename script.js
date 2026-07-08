@@ -2,7 +2,13 @@ const topicList = document.getElementById("topicList");
 const newTopicInput = document.getElementById("newTopicInput");
 const addTopicButton = document.getElementById("addTopicButton");
 
-const topics = ["HTML", "CSS", "JavaScript"];
+const savedTopics = JSON.parse(localStorage.getItem("topics"));
+
+let topics = savedTopics || ["HTML", "CSS", "JavaScript"];
+
+function saveTopics() {
+  localStorage.setItem("topics", JSON.stringify(topics));
+}
 
 function renderTopics() {
   topicList.innerHTML = "";
@@ -18,6 +24,8 @@ function renderTopics() {
 
     deleteButton.addEventListener("click", function () {
       topics.splice(index, 1);
+
+      saveTopics();
 
       renderTopics();
     });
@@ -37,6 +45,8 @@ addTopicButton.addEventListener("click", function () {
   }
 
   topics.push(newTopic);
+
+  saveTopics();
 
   newTopicInput.value = "";
 
