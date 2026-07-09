@@ -17,3 +17,15 @@ test("user can add a new topic", async ({ page }) => {
 
   await expect(page.getByText("React")).toBeVisible();
 });
+
+test("user cannot add a blank topic", async ({ page }) => {
+  await page.goto("http://127.0.0.1:5500");
+
+  const topicsBefore = await page.locator("#topicList li").count();
+
+  await page.locator("#addTopicButton").click();
+
+  const topicsAfter = await page.locator("#topicList li").count();
+
+  expect(topicsAfter).toBe(topicsBefore);
+});
