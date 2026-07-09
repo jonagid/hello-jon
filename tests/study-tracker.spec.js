@@ -59,3 +59,23 @@ test("user can delete a topic", async ({ page }) => {
 
   await expect(page.getByText("Delete Me")).not.toBeVisible();
 });
+
+test("completed filter only shows completed topics", async ({ page }) => {
+  await page.goto("http://127.0.0.1:5500");
+
+  await page.locator("#newTopicInput").fill("Incomplete Topic");
+  await page.locator("#addTopicButton").click();
+
+  await page.locator("#newTopicInput").fill("Completed Topic");
+  await page.locator("#addTopicButton").click();
+
+  const completedTopic = page.locator("li").filter({ hasText: "Completed Topic" });
+
+  await completedTopic.locator('input[type="checkbox"]').check();
+
+  await page.locator("#showCompletedButton").click();
+
+  await expect(page.getByText("Completed Topic")).toBeVisible();
+
+  await expect(page.getByText("Incomplete Topic")).not.toBeVisible();
+});
