@@ -9,6 +9,7 @@ const showCompletedButton = document.getElementById("showCompletedButton");
 const progressText = document.getElementById("progressText");
 const progressSummary = document.getElementById("progressSummary");
 const progressPercent = document.getElementById("progressPercent");
+const progressBar = document.getElementById("progressBar");
 const progressMessage = document.getElementById("progressMessage");
 
 const savedTopics = JSON.parse(localStorage.getItem("topics"));
@@ -56,6 +57,8 @@ function updateProgress() {
   progressSummary.textContent = `Completed: ${completedCount} of ${totalCount} topics`;
 
   progressPercent.textContent = `Progress: ${percentComplete}%`;
+
+  progressBar.style.width = `${percentComplete}%`;
 
   if (completedCount === 0) {
     progressMessage.textContent = "Start by completing one topic.";
