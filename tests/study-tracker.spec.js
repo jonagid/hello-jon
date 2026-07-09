@@ -79,3 +79,23 @@ test("completed filter only shows completed topics", async ({ page }) => {
 
   await expect(page.getByText("Incomplete Topic")).not.toBeVisible();
 });
+
+test("active filter only shows incomplete topics", async ({ page }) => {
+  await page.goto("http://127.0.0.1:5500");
+
+  await page.locator("#newTopicInput").fill("Active Topic");
+  await page.locator("#addTopicButton").click();
+
+  await page.locator("#newTopicInput").fill("Finished Topic");
+  await page.locator("#addTopicButton").click();
+
+  const finishedTopic = page.locator("li").filter({ hasText: "Finished Topic" });
+
+  await finishedTopic.locator('input[type="checkbox"]').check();
+
+  await page.locator("#showActiveButton").click();
+
+  await expect(page.getByText("Active Topic")).toBeVisible();
+
+  await expect(page.getByText("Finished Topic")).not.toBeVisible();
+});
