@@ -44,3 +44,18 @@ test("user can mark a topic as completed", async ({ page }) => {
 
   await expect(page.locator("#progressPercent")).toContainText("Progress:");
 });
+
+test("user can delete a topic", async ({ page }) => {
+  await page.goto("http://127.0.0.1:5500");
+
+  await page.locator("#newTopicInput").fill("Delete Me");
+  await page.locator("#addTopicButton").click();
+
+  const topic = page.locator("li").filter({ hasText: "Delete Me" });
+
+  await expect(topic).toBeVisible();
+
+  await topic.getByRole("button", { name: "Delete" }).click();
+
+  await expect(page.getByText("Delete Me")).not.toBeVisible();
+});
