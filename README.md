@@ -1,5 +1,7 @@
 # Study Tracker
 
+[![Playwright Tests](https://github.com/jonagid/hello-jon/actions/workflows/playwright.yml/badge.svg)](https://github.com/jonagid/hello-jon/actions/workflows/playwright.yml)
+
 A browser-based study tracker built with HTML, CSS, and JavaScript. The app lets users add study topics, mark them complete, filter by status, delete topics, and track progress with a summary and visual progress bar.
 
 This project was built as a beginner software engineering and QA portfolio project to demonstrate CRUD workflows, persistent browser storage, UI updates, manual test documentation, and bug report writing.
