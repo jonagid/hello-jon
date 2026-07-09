@@ -99,3 +99,16 @@ test("active filter only shows incomplete topics", async ({ page }) => {
 
   await expect(page.getByText("Finished Topic")).not.toBeVisible();
 });
+
+test("topics persist after page refresh", async ({ page }) => {
+  await page.goto("http://127.0.0.1:5500");
+
+  await page.locator("#newTopicInput").fill("Persistent Topic");
+  await page.locator("#addTopicButton").click();
+
+  await expect(page.getByText("Persistent Topic")).toBeVisible();
+
+  await page.reload();
+
+  await expect(page.getByText("Persistent Topic")).toBeVisible();
+});
