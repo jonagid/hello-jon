@@ -29,3 +29,18 @@ test("user cannot add a blank topic", async ({ page }) => {
 
   expect(topicsAfter).toBe(topicsBefore);
 });
+
+test("user can mark a topic as completed", async ({ page }) => {
+  await page.goto("http://127.0.0.1:5500");
+
+  await page.locator("#newTopicInput").fill("Playwright");
+  await page.locator("#addTopicButton").click();
+
+  const playwrightTopic = page.locator("li").filter({ hasText: "Playwright" });
+
+  await playwrightTopic.locator('input[type="checkbox"]').check();
+
+  await expect(playwrightTopic.locator("span")).toHaveClass(/completed-topic/);
+
+  await expect(page.locator("#progressPercent")).toContainText("Progress:");
+});
