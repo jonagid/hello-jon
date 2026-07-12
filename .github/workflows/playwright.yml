@@ -25,8 +25,5 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Start local server
-        run: python3 -m http.server 5500 &
-
       - name: Run Playwright tests
         run: npm test
