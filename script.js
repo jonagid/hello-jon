@@ -12,13 +12,25 @@ const progressPercent = document.getElementById("progressPercent");
 const progressBar = document.getElementById("progressBar");
 const progressMessage = document.getElementById("progressMessage");
 
-const savedTopics = JSON.parse(localStorage.getItem("topics"));
+function loadTopics() {
+  try {
+    const savedTopics = JSON.parse(localStorage.getItem("topics"));
 
-let topics = savedTopics || [
-  { name: "HTML", completed: false },
-  { name: "CSS", completed: false },
-  { name: "JavaScript", completed: false },
-];
+    if (Array.isArray(savedTopics)) {
+      return savedTopics;
+    }
+  } catch (error) {
+    console.log("Saved topics could not be loaded.");
+  }
+
+  return [
+    { name: "HTML", completed: false },
+    { name: "CSS", completed: false },
+    { name: "JavaScript", completed: false },
+  ];
+}
+
+let topics = loadTopics();
 
 topics = topics.map(function (topic) {
   if (typeof topic === "string") {
@@ -75,19 +87,19 @@ function renderTopics() {
   topicList.innerHTML = "";
 
   const visibleTopics = topics.filter(function (topic) {
-  if (currentFilter === "active") {
-    return !topic.completed;
-  }
+    if (currentFilter === "active") {
+      return !topic.completed;
+    }
 
-  if (currentFilter === "completed") {
-    return topic.completed;
-  }
+    if (currentFilter === "completed") {
+      return topic.completed;
+    }
 
-  return true;
-});
+    return true;
+  });
 
-visibleTopics.forEach(function (topic) {
-  const index = topics.indexOf(topic);
+  visibleTopics.forEach(function (topic) {
+    const index = topics.indexOf(topic);
     const listItem = document.createElement("li");
 
     const completedCheckbox = document.createElement("input");
@@ -108,25 +120,6 @@ visibleTopics.forEach(function (topic) {
       topic.completed = completedCheckbox.checked;
 
       saveTopics();
-
-      showAllButton.addEventListener("click", function () {
-  currentFilter = "all";
-
-  renderTopics();
-});
-
-showActiveButton.addEventListener("click", function () {
-  currentFilter = "active";
-
-  renderTopics();
-});
-
-showCompletedButton.addEventListener("click", function () {
-  currentFilter = "completed";
-
-  renderTopics();
-});
-      
       renderTopics();
     });
 
@@ -134,7 +127,6 @@ showCompletedButton.addEventListener("click", function () {
       topics.splice(index, 1);
 
       saveTopics();
-
       renderTopics();
     });
 
@@ -147,6 +139,21 @@ showCompletedButton.addEventListener("click", function () {
 
   updateProgress();
 }
+
+showAllButton.addEventListener("click", function () {
+  currentFilter = "all";
+  renderTopics();
+});
+
+showActiveButton.addEventListener("click", function () {
+  currentFilter = "active";
+  renderTopics();
+});
+
+showCompletedButton.addEventListener("click", function () {
+  currentFilter = "completed";
+  renderTopics();
+});
 
 addTopicButton.addEventListener("click", function () {
   const newTopic = newTopicInput.value.trim();

@@ -3,26 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello Jon</title>
+  <title>Study Tracker</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <main class="card">
-    <h1>Hello, I’m Jon👋</h1>
+    <h1>Study Tracker</h1>
 
-<p>I am a PTA learning software engineering from zero.</p>
-
-<p>
-  My goal is to build secure, useful apps for real people — especially in healthcare,
-  remote work, and business workflows.
-</p>
-
-<p>
-  This is my first interactive webpage.
-</p>
-<button id="messageButton">Click me</button>
-
-<p id="message"></p>
+    <p>
+      Add study topics, mark them complete, filter your list, and track your progress.
+    </p>
 
 <section class="progress-section">
   <h2>Software Engineering Progress</h2>
@@ -35,8 +26,9 @@
   <button id="showCompletedButton">Completed</button>
 </div>
 
-<input id="newTopicInput" type="text" placeholder="Add a topic" />
+<label for="newTopicInput">New study topic</label>
 
+<input id="newTopicInput" type="text" placeholder="Add a topic" />
 <button id="addTopicButton">Add topic</button>
 
 <ul id="topicList"></ul>
@@ -53,9 +45,6 @@
 
 <p id="progressMessage">Start by completing one topic.</p>
 
-<button id="progressButton">Complete one topic</button>
-
-<button id="resetButton">Reset progress</button>
 </section>
 </main>
 

@@ -36,7 +36,7 @@ Added CSS spacing with margin between the topic text and the Delete button.
 
 ---
 
-## Bug Report 2: Blank topics should not be added
+## Bug Report 2: Filters did not work until a topic checkbox changed
 
 **Status:**
 Fixed
@@ -51,28 +51,28 @@ Medium
 Local browser and GitHub Pages deployment
 
 **Description:**
-Users should not be able to add empty topics to the list.
+The All, Active, and Completed controls should work immediately after page load.
 
 **Steps to Reproduce:**
 1. Open the Study Tracker app.
-2. Leave the topic input empty.
-3. Click Add Topic.
+2. Do not change a topic checkbox.
+3. Click Active or Completed.
 
 **Expected Result:**
-No topic should be added.
+The selected filter should apply immediately.
 
 **Actual Result:**
-No topic is added because the app checks for empty input.
+Nothing happened because the filter click listeners were registered inside a checkbox change handler. Repeated checkbox changes also registered duplicate listeners.
 
 **Fix:**
-Added validation to stop the function if the input is blank.
+Registered each filter listener once during app initialization.
 
 **Related Code Area:**
 `script.js`
 
 ---
 
-## Bug Report 3: Progress should update after deleting a topic
+## Bug Report 3: Playwright config did not match the project module type
 
 **Status:**
 Fixed
@@ -87,22 +87,19 @@ Medium
 Local browser and GitHub Pages deployment
 
 **Description:**
-When a user deletes a topic, the completed count, progress percentage, and progress bar should update immediately.
+The project declares CommonJS in `package.json`, so the Playwright config must use CommonJS syntax.
 
 **Steps to Reproduce:**
-1. Open the Study Tracker app.
-2. Mark a topic as completed.
-3. Delete a topic.
-4. Check the progress summary and progress bar.
+1. Run `npm test`.
 
 **Expected Result:**
-The progress summary and progress bar should update after the topic is deleted.
+Playwright should load its configuration and start the test suite.
 
 **Actual Result:**
-The progress summary and progress bar update after deletion.
+The config used `import` and `export default`, which is incompatible with this CommonJS package.
 
 **Fix:**
-Called `renderTopics()` after deleting a topic so the list and progress UI redraw with the latest data.
+Replaced the ES module syntax with `require` and `module.exports`.
 
 **Related Code Area:**
 `script.js`
